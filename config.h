@@ -6,7 +6,7 @@
 #define BROWSER "librewolf"
 
 /* appearance */
-static unsigned int borderpx  = 3;        /* border pixel of windows */
+static unsigned int borderpx  = 2;        /* border pixel of windows */
 static unsigned int snap      = 32;       /* snap pixel */
 static unsigned int gappih    = 20;       /* horiz inner gap between windows */
 static unsigned int gappiv    = 10;       /* vert inner gap between windows */
@@ -16,15 +16,15 @@ static int swallowfloating    = 1;        /* 1 means swallow floating windows by
 static int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
-static const int vertpad            = 7;       /* vertical padding of bar */
-static const int sidepad            = 9;       /* horizontal padding of bar */
+static const int vertpad            = 3;       /* vertical padding of bar */
+static const int sidepad            = 5;       /* horizontal padding of bar */
 static char *fonts[]          = { "mono:size=10", "NotoColorEmoji:pixelsize=10:antialias=true:autohint=true"  };
-static char normbgcolor[]           = "#e5e5e5";
+static char normbgcolor[]           = "#0f1419";
 static char normbordercolor[]       = "#444444";
-static char normfgcolor[]           = "#000000";
-static char selfgcolor[]            = "#000000";
+static char normfgcolor[]           = "#e6e1cf";
+static char selfgcolor[]            = "#0f1419";
 static char selbordercolor[]        = "#ff0000";
-static char selbgcolor[]            = "#bfbfbf";
+static char selbgcolor[]            = "#36a3d9";
 static char *colors[][3] = {
        /*               fg           bg           border   */
        [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
@@ -211,10 +211,10 @@ static const Key keys[] = {
 	{ MODKEY,			XK_Return,	spawn,		{.v = termcmd } },
 	{ MODKEY|ShiftMask,		XK_Return,	togglescratch,	{.ui = 0} },
 
-	{ MODKEY,			XK_z,		incrgaps,	{.i = +3 } },
-	/* { MODKEY|ShiftMask,		XK_z,		spawn,		SHCMD("") }, */
-	{ MODKEY,			XK_x,		incrgaps,	{.i = -3 } },
-	/* { MODKEY|ShiftMask,		XK_x,		spawn,		SHCMD("") }, */
+	{ MODKEY|ShiftMask,		XK_z,		incrgaps,	{.i = +3 } },
+	{ MODKEY,			XK_z,		spawn,		SHCMD("") },
+	{ MODKEY|ShiftMask,		XK_x,		incrgaps,	{.i = -3 } },
+	{ MODKEY,			XK_x,		spawn,		{.v = termcmd} },
 	{ MODKEY,			XK_c,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "profanity", NULL } } },
 	/* { MODKEY|ShiftMask,		XK_c,		spawn,		SHCMD("") }, */
 	/* V is automatically bound above in STACKKEYS */
@@ -252,7 +252,7 @@ static const Key keys[] = {
 	{ MODKEY,			XK_F8,		spawn,		{.v = (const char*[]){ "mailsync", NULL } } },
 	{ MODKEY,			XK_F9,		spawn,		{.v = (const char*[]){ "mounter", NULL } } },
 	{ MODKEY,			XK_F10,		spawn,		{.v = (const char*[]){ "unmounter", NULL } } },
-	{ MODKEY,			XK_F11,		spawn,		SHCMD("mpv --untimed --no-cache --no-osc --no-input-default-bindings --profile=low-latency --input-conf=/dev/null --title=webcam $(ls /dev/video[0,2,4,6,8] | tail -n 1)") },
+	{ MODKEY,			XK_F11,		spawn,		SHCMD("mpv --untimed --no-cache --no-osc --no-input-default-bindings --profile=low-latency --input-conf=/dev/null --title=webcam $(ls /dev/video0 | tail -n 1)") },
 	{ MODKEY,			XK_F12,		spawn,		SHCMD("remaps") },
 	{ MODKEY,			XK_space,	zoom,		{0} },
 	{ MODKEY|ShiftMask,		XK_space,	togglefloating,	{0} },
@@ -276,7 +276,6 @@ static const Key keys[] = {
 	{ 0, XF86XK_AudioForward,	spawn,		{.v = (const char*[]){ "mpc", "seek", "+10", NULL } } },
 	{ 0, XF86XK_AudioMedia,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "ncmpcpp", NULL } } },
 	{ 0, XF86XK_AudioMicMute,	spawn,		SHCMD("pactl set-source-mute @DEFAULT_SOURCE@ toggle") },
-	/* { 0, XF86XK_PowerOff,		spawn,		{.v = (const char*[]){ "sysact", NULL } } }, */
 	{ 0, XF86XK_Calculator,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "bc", "-l", NULL } } },
 	{ 0, XF86XK_Sleep,		spawn,		{.v = (const char*[]){ "sudo", "-A", "zzz", NULL } } },
 	{ 0, XF86XK_WWW,		spawn,		{.v = (const char*[]){ BROWSER, NULL } } },
@@ -284,12 +283,8 @@ static const Key keys[] = {
 	{ 0, XF86XK_ScreenSaver,	spawn,		SHCMD("slock & xset dpms force off; mpc pause; pauseallmpv") },
 	{ 0, XF86XK_TaskPane,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "htop", NULL } } },
 	{ 0, XF86XK_Mail,		spawn,		SHCMD(TERMINAL " -e neomutt ; pkill -RTMIN+12 dwmblocks") },
-	{ 0, XF86XK_MyComputer,		spawn,		{.v = (const char*[]){ TERMINAL, "-e",  "lfub",  "/", NULL } } },
-	/* { 0, XF86XK_Battery,		spawn,		SHCMD("") }, */
+	{ 0, XF86XK_HomePage,		spawn,		{.v = (const char*[]){ TERMINAL, "-e",  "lfub",  "/", NULL } } },
 	{ 0, XF86XK_Launch1,		spawn,		{.v = (const char*[]){ "xset", "dpms", "force", "off", NULL } } },
-	{ 0, XF86XK_TouchpadToggle,	spawn,		SHCMD("(synclient | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient TouchpadOff=1") },
-	{ 0, XF86XK_TouchpadOff,	spawn,		{.v = (const char*[]){ "synclient", "TouchpadOff=1", NULL } } },
-	{ 0, XF86XK_TouchpadOn,		spawn,		{.v = (const char*[]){ "synclient", "TouchpadOff=0", NULL } } },
 	{ 0, XF86XK_MonBrightnessUp,	spawn,		{.v = (const char*[]){ "xbacklight", "-inc", "15", NULL } } },
 	{ 0, XF86XK_MonBrightnessDown,	spawn,		{.v = (const char*[]){ "xbacklight", "-dec", "15", NULL } } },
 
@@ -338,4 +333,3 @@ static const Button buttons[] = {
 	{ ClkTagBar,		0,		Button5,	shiftview,	{.i = 1} },
 	{ ClkRootWin,		0,		Button2,	togglebar,	{0} },
 };
-
