@@ -24,6 +24,10 @@ I haven't kept `man dwm`/`dwm.1` updated though. PRs welcome on that, lol.
 - [vanitygaps](https://dwm.suckless.org/patches/vanitygaps/): Gaps allowed across all layouts.
 - [swallow patch](https://dwm.suckless.org/patches/swallow/): if a program run from a terminal would make it inoperable, it temporarily takes its place to save space.
 
+### Lisen's additional patch
+- [attachbottom](https://dwm.suckless.org/patches/attachbottom/): New clients attach at the bottom of the stack instead of the top.
+- [barpadding](https://dwm.suckless.org/patches/barpadding/): adds padding to dwm bar for looks.
+
 
 ## Installation for newbs
 
