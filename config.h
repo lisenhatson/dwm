@@ -25,10 +25,26 @@ static char normfgcolor[]           = "#e6e1cf";
 static char selfgcolor[]            = "#0f1419";
 static char selbordercolor[]        = "#ff0000";
 static char selbgcolor[]            = "#36a3d9";
+
+static char sbarbgcolor[]           = "#0f1419";
+static char sbarfgcolor[]           = "#e6e1cf";
+static char tnormbgcolor[]          = "#0f1419";
+static char tnormfgcolor[]          = "#e6e1cf";
+static char tselbgcolor[]           = "#36a3d9";
+static char tselfgcolor[]           = "#0f1419";
+static char inormbgcolor[]          = "#0f1419";
+static char inormfgcolor[]          = "#444444";
+static char iselbgcolor[]           = "#0f1419";
+static char iselfgcolor[]           = "#e6e1cf";
 static char *colors[][3] = {
        /*               fg           bg           border   */
        [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
        [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
+       [SchemeStatus] = { sbarfgcolor, sbarbgcolor, "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
+       [SchemeTagsSel] = {tselfgcolor, tselbgcolor,"#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
+       [SchemeTagsNorm] = { tnormfgcolor, tnormbgcolor, "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
+       [SchemeInfoSel] = { iselfgcolor, iselbgcolor, "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
+       [SchemeInfoNorm] = { inormfgcolor, inormbgcolor, "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 };
 
 typedef struct {
@@ -338,4 +354,3 @@ static const Button buttons[] = {
 	{ ClkTagBar,		0,		Button5,	shiftview,	{.i = 1} },
 	{ ClkRootWin,		0,		Button2,	togglebar,	{0} },
 };
-
