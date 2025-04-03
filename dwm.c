@@ -71,6 +71,21 @@
 #define SPTAGMASK		(((1 << LENGTH(scratchpads))-1) << LENGTH(tags))
 #define TEXTW(X)                (drw_fontset_getwidth(drw, (X)) + lrpad)
 #define TRUNC(X,A,B)            (MAX((A), MIN((X), (B))))
+#define XRDB_LOAD_COLOR(R,V)    if (XrmGetResource(xrdb, R, NULL, &type, &value)) { \
+                                    if (value.addr != NULL && strnlen(value.addr, 8) == 7 && value.addr[0] == '#') { \
+                                        int i = 1; \
+                                        for (; i <= 6; i++) { \
+                                            if (!((value.addr[i] >= '0' && value.addr[i] <= '9') || \
+                                                  (value.addr[i] >= 'A' && value.addr[i] <= 'F') || \
+                                                  (value.addr[i] >= 'a' && value.addr[i] <= 'f'))) \
+                                                break; \
+                                        } \
+                                        if (i == 7) { \
+                                            strncpy(V, value.addr, 7); \
+                                            V[7] = '\0'; \
+                                        } \
+                                    } \
+                                }
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
@@ -301,7 +316,7 @@ static pid_t winpid(Window w);
 
 
 /* variables */
-static const char broken[] = "broken";
+static const char broken[] = "OKNOTOK";
 static char stext[256];
 static char rawstext[256];
 static int dwmblockssig;
@@ -1283,6 +1298,9 @@ killclient(const Arg *arg)
 		XUngrabServer(dpy);
 	}
 }
+
+
+
 
 void
 manage(Window w, XWindowAttributes *wa)
@@ -2716,6 +2734,7 @@ xerrorstart(Display *dpy, XErrorEvent *ee)
 	return -1;
 }
 
+
 void
 zoom(const Arg *arg)
 {
@@ -2778,20 +2797,42 @@ resource_load(XrmDatabase db, char *name, enum resource_type rtype, void *dst)
 void
 load_xresources(void)
 {
-	Display *display;
-	char *resm;
-	XrmDatabase db;
-	ResourcePref *p;
+    Display *display;
+    char *resm;
+    XrmDatabase xrdb;
+    ResourcePref *p;
+    char *type;          // Declare `type` for XrmGetResource
+    XrmValue value;      // Declare `value` for XrmGetResource
 
-	display = XOpenDisplay(NULL);
-	resm = XResourceManagerString(display);
-	if (!resm)
-		return;
+    display = XOpenDisplay(NULL);
+    if (!display)
+        return;
 
-	db = XrmGetStringDatabase(resm);
-	for (p = resources; p < resources + LENGTH(resources); p++)
-		resource_load(db, p->name, p->type, p->dst);
-	XCloseDisplay(display);
+    resm = XResourceManagerString(display);
+    if (!resm) {
+        XCloseDisplay(display);
+        return;
+    }
+
+    xrdb = XrmGetStringDatabase(resm);
+    if (!xrdb) {
+        XCloseDisplay(display);
+        return;
+    }
+
+    // Load general resources
+    for (p = resources; p < resources + LENGTH(resources); p++)
+        resource_load(xrdb, p->name, p->type, p->dst);
+
+    // Load colors (fixing undeclared variables)
+    XRDB_LOAD_COLOR("dwm.normbordercolor", normbordercolor);
+    XRDB_LOAD_COLOR("dwm.normbgcolor", normbgcolor);
+    XRDB_LOAD_COLOR("dwm.normfgcolor", normfgcolor);
+    XRDB_LOAD_COLOR("dwm.selbordercolor", selbordercolor);
+    XRDB_LOAD_COLOR("dwm.selbgcolor", selbgcolor);
+    XRDB_LOAD_COLOR("dwm.selfgcolor", selfgcolor);
+
+    XCloseDisplay(display);
 }
 
 int
