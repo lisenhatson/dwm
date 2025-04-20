@@ -1,8 +1,9 @@
-# Luke's build of dwm
+# Li's build of dwm
 
-## FAQ
+Forked and heavily modified from [Luke's dwm build](https://github.com/LukeSmithxyz/dwm)
+![The dwm](/dwm.png)
 
-> What are the bindings?
+## Keybindings
 
 This is suckless, mmmbud, the source code is the documentation! Check out [config.h](config.h).
 
@@ -23,13 +24,16 @@ I haven't kept `man dwm`/`dwm.1` updated though. PRs welcome on that, lol.
 - [shiftview](https://dwm.suckless.org/patches/nextprev/): Cycle through tags (<kbd>super+g/;</kbd>).
 - [vanitygaps](https://dwm.suckless.org/patches/vanitygaps/): Gaps allowed across all layouts.
 - [swallow patch](https://dwm.suckless.org/patches/swallow/): if a program run from a terminal would make it inoperable, it temporarily takes its place to save space.
+> I have no idea why Luke did not link scratchpad, true fullscreen, and sticky windows patches.
 
 ### Lisen's additional patch
-- [attachdirection](https://dwm.suckless.org/patches/attachdirection): New clients attach at the bottom of the stack instead of the top.
-- [barpadding](https://dwm.suckless.org/patches/barpadding/): adds padding to dwm bar for looks.
 
+- [Attachdirection](https://dwm.suckless.org/patches/attachdirection): New clients attach at the bottom of the stack instead of the top.
+- [Barpadding](https://dwm.suckless.org/patches/barpadding/): adds padding to dwm bar for looks, I'm not using it by default.
+- [Xrdb](https://dwm.suckless.org/patches/xrdb/): I did not realize xresources' patch, but this will force dwm to read ```dwm.*``` variables.
+- [Systray](https://dwm.suckless.org/patches/systray/): Manually patched systray that bloats the code.
 
-## Installation for newbs
+## Installation
 
 ```bash
 git clone https://github.com/LisenHatson/dwm.git
