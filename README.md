@@ -1,6 +1,9 @@
-# Li's build of dwm
+# Lisen's build of dwm
 
 Forked and heavily modified from [Luke's dwm build](https://github.com/LukeSmithxyz/dwm)
+
+Also check Lisen's build of [St](https://github.com/lisenhatson/st), [dmenu](https://github.com/lisenhatson/dmenu), and [dwmblocks](https://github.com/lisenhatson/dwmblocks).
+
 ![The dwm](/dwm.png)
 
 ## Keybindings
@@ -10,6 +13,8 @@ This is suckless, mmmbud, the source code is the documentation! Check out [confi
 Okay, okay, actually I keep a readme in `larbs.mom` for my whole system, including the binds here.
 Press <kbd>super+F1</kbd> to view it in dwm (zathura is required for that binding).
 I haven't kept `man dwm`/`dwm.1` updated though. PRs welcome on that, lol.
+
+Note that I swapped `super+q` and `super+Q` to prevent accidental window closing.
 
 ## Patches and features
 
