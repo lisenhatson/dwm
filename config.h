@@ -4,6 +4,7 @@
 #define TERMINAL "st"
 #define TERMCLASS "St"
 #define BROWSER "thorium-browser"
+#define LBROWSER "librewolf"
 
 /* appearance */
 static unsigned int borderpx  = 4;        /* border pixel of windows */
@@ -170,12 +171,12 @@ static const Key keys[] = {
 
 	{ MODKEY,			XK_Tab,        view,                   {0} },
 	/* { MODKEY|ShiftMask,		XK_Tab,	       spawn,                  SHCMD("") }, */
-	{ MODKEY,			XK_q,          spawn,                  {.v = (const char*[]){ "sysact", NULL } } },
-	{ MODKEY|ShiftMask,	XK_q,          killclient,             {0} },
+	{ MODKEY,			XK_q,          killclient,             {0} },
+	{ MODKEY|ShiftMask,	XK_q,          spawn,                  {.v = (const char*[]){ "sysact", NULL } } },
 	{ MODKEY,			XK_w,          spawn,                  {.v = (const char*[]){ BROWSER, NULL } } },
-	{ MODKEY|ShiftMask,	XK_w,          spawn,                  {.v = (const char*[]){ TERMINAL, "-e", "nmtui", NULL } } },
+	{ MODKEY|ShiftMask,	XK_w,          spawn,                  {.v = (const char*[]){ LBROWSER, NULL } } },
 	{ MODKEY,			XK_e,          spawn,                  {.v = (const char*[]){ "pcmanfm", NULL } } },
-    { MODKEY|ShiftMask,	XK_e,          spawn,                  {.v = (const char*[]){ TERMINAL, "-e", "htop", NULL } } },
+    { MODKEY|ShiftMask,	XK_e,          spawn,                  {.v = (const char*[]){ TERMINAL, "-e", "lfub", NULL } } },
     { MODKEY,			XK_t,          setlayout,              {.v = &layouts[0]} }, /* tile */
 	{ MODKEY|ShiftMask,	XK_t,          setlayout,              {.v = &layouts[1]} }, /* bstack */
 	{ MODKEY,			XK_y,          setlayout,              {.v = &layouts[2]} }, /* spiral */
