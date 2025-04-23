@@ -79,8 +79,8 @@ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen win
 #include "vanitygaps.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-    { "[T]", tile },                     /* Tile: master left */
-    { "[B]", bstack },                   /* Bottom stack */
+    { "[]=", tile },                     /* Tile: master left */
+    { "[=]", bstack },                   /* Bottom stack */
 
     { "[@]", spiral },                   /* Spiral */
     { "[//]", dwindle },                  /* Dwindle */
@@ -145,12 +145,18 @@ ResourcePref resources[] = {
 #include "shiftview.c"
 
 static const Key keys[] = {
+
+    /* Keybinds are ordered by ther qwerty layout, including tab and others. */
 	/* modifier                     key            function                argument */
+
+	/* jkJKvV */
 	STACKKEYS(MODKEY,                              focus)
 	STACKKEYS(MODKEY|ShiftMask,                    push)
+
 	/* { MODKEY|ShiftMask,		XK_Escape,     spawn,	               SHCMD("") }, */
 	{ MODKEY,			XK_grave,      spawn,	               {.v = (const char*[]){ "dmenuunicode", NULL } } },
 	/* { MODKEY|ShiftMask,		XK_grave,      togglescratch,	       SHCMD("") }, */
+
 	TAGKEYS(			XK_1,          0)
 	TAGKEYS(			XK_2,          1)
 	TAGKEYS(			XK_3,          2)
@@ -160,23 +166,35 @@ static const Key keys[] = {
 	TAGKEYS(			XK_7,          6)
 	TAGKEYS(			XK_8,          7)
 	TAGKEYS(			XK_9,          8)
+
 	{ MODKEY,			XK_0,	       view,                   {.ui = ~0 } },
 	{ MODKEY|ShiftMask,	XK_0,	       tag,                    {.ui = ~0 } },
+
 	{ MODKEY,			XK_minus,      spawn,                  SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; kill -44 $(pidof dwmblocks)") },
 	{ MODKEY|ShiftMask,	XK_minus,      spawn,                  SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 15%-; kill -44 $(pidof dwmblocks)") },
 	{ MODKEY,			XK_equal,      spawn,                  SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; kill -44 $(pidof dwmblocks)") },
 	{ MODKEY|ShiftMask,	XK_equal,      spawn,                  SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 15%+; kill -44 $(pidof dwmblocks)") },
+
 	{ MODKEY,			XK_BackSpace,  spawn,                  {.v = (const char*[]){ "sysact", NULL } } },
-	{ MODKEY|ShiftMask,	XK_BackSpace,  spawn,                  {.v = (const char*[]){ "sysact", NULL } } },
+	{ MODKEY|ShiftMask,	XK_BackSpace,  spawn,                  SHCMD("pkill dwm") },
 
 	{ MODKEY,			XK_Tab,        view,                   {0} },
-	/* { MODKEY|ShiftMask,		XK_Tab,	       spawn,                  SHCMD("") }, */
+	{ MODKEY|ShiftMask,	XK_Tab,	       spawn,                  {.v = (const char*[]){ TERMINAL, "-e", "nvim", NULL } } },
+
 	{ MODKEY,			XK_q,          killclient,             {0} },
 	{ MODKEY|ShiftMask,	XK_q,          spawn,                  {.v = (const char*[]){ "sysact", NULL } } },
+
+    /* Browsers and file managers */
 	{ MODKEY,			XK_w,          spawn,                  {.v = (const char*[]){ BROWSER, NULL } } },
 	{ MODKEY|ShiftMask,	XK_w,          spawn,                  {.v = (const char*[]){ LBROWSER, NULL } } },
 	{ MODKEY,			XK_e,          spawn,                  {.v = (const char*[]){ "pcmanfm", NULL } } },
     { MODKEY|ShiftMask,	XK_e,          spawn,                  {.v = (const char*[]){ TERMINAL, "-e", "lfub", NULL } } },
+
+    /* Screenrecordings */
+	{ MODKEY,			XK_r,          spawn,		           {.v = (const char*[]){ "dmenurecord", NULL } } },
+	{ MODKEY|ShiftMask,	XK_r,          spawn,                  {.v = (const char*[]){ "dmenurecord", "kill", NULL } } },
+
+    /* Window layouting */
     { MODKEY,			XK_t,          setlayout,              {.v = &layouts[0]} }, /* tile */
 	{ MODKEY|ShiftMask,	XK_t,          setlayout,              {.v = &layouts[1]} }, /* bstack */
 	{ MODKEY,			XK_y,          setlayout,              {.v = &layouts[2]} }, /* spiral */
@@ -185,47 +203,66 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,	XK_u,          setlayout,              {.v = &layouts[5]} }, /* monocle */
 	{ MODKEY,			XK_i,          setlayout,              {.v = &layouts[6]} }, /* centeredmaster */
 	{ MODKEY|ShiftMask,	XK_i,          setlayout,              {.v = &layouts[7]} }, /* centeredfloatingmaster */
+
 	{ MODKEY,			XK_o,          incnmaster,             {.i = +1 } },
 	{ MODKEY|ShiftMask,	XK_o,          incnmaster,             {.i = -1 } },
-	{ MODKEY,			XK_n,          spawn,                  {.v = (const char*[]){ "mpc", "toggle", NULL } } },
-	{ MODKEY|ShiftMask,	XK_n,          spawn,                  SHCMD("mpc pause; pauseallmpv") },
+
+    /* Screenshot */
+	{ MODKEY,			XK_p,          spawn,                  SHCMD("maim $HOME/Pictures/Screenshots/pic-full-$(date '+%y%m%d-%H%M-%S').png") },
+	{ MODKEY|ShiftMask,	XK_p,          spawn,                  {.v = (const char*[]){ "maimpick", NULL } } },
+
 	{ MODKEY,			XK_bracketleft, spawn,                 {.v = (const char*[]){ "mpc", "seek", "-10", NULL } } },
 	{ MODKEY|ShiftMask,	XK_bracketleft, spawn,                 {.v = (const char*[]){ "mpc", "seek", "-60", NULL } } },
 	{ MODKEY,			XK_bracketright, spawn,                {.v = (const char*[]){ "mpc", "seek", "+10", NULL } } },
 	{ MODKEY|ShiftMask,	XK_bracketright, spawn,                {.v = (const char*[]){ "mpc", "seek", "+60", NULL } } },
-	{ MODKEY,			XK_backslash,  view,                   {0} },
-	/* { MODKEY|ShiftMask,		XK_backslash,  spawn,                  SHCMD("") }, */
+
+    { MODKEY,			XK_backslash,  view,                   {0} },
+    { MODKEY|ShiftMask,	XK_backslash,  spawn,                  SHCMD("killall screenkey || screenkey &") },
 
 	{ MODKEY,			XK_a,          togglegaps,             {0} },
 	{ MODKEY|ShiftMask,	XK_a,          defaultgaps,            {0} },
+
 	{ MODKEY,			XK_s,          togglesticky,           {0} },
 	/* { MODKEY|ShiftMask,		XK_s,          spawn,                  SHCMD("") }, */
+
 	{ MODKEY,			XK_d,          spawn,                  {.v = (const char*[]){ "dmenu_run", NULL } } },
 	{ MODKEY|ShiftMask,	XK_d,          spawn,                  {.v = (const char*[]){ "passmenu", NULL } } },
+
 	{ MODKEY,			XK_f,          togglefullscr,          {0} },
 	{ MODKEY|ShiftMask,	XK_f,          setlayout,              {.v = &layouts[8]} },
+
 	{ MODKEY,			XK_g,          shiftview,              { .i = -1 } },
 	{ MODKEY|ShiftMask,	XK_g,          shifttag,               { .i = -1 } },
+
 	{ MODKEY,			XK_h,          setmfact,               {.f = -0.05} },
-	/* J and K are automatically bound above in STACKEYS */
+    /* all jkJK bound to STACKEYS*/
 	{ MODKEY,			XK_l,          setmfact,               {.f = +0.05} },
+
 	{ MODKEY,			XK_semicolon,  shiftview,              { .i = 1 } },
 	{ MODKEY|ShiftMask,	XK_semicolon,  shifttag,               { .i = 1 } },
+
 	{ MODKEY,			XK_apostrophe, togglescratch,          {.ui = 1} },
-	/* { MODKEY|ShiftMask,		XK_apostrophe, spawn,                  SHCMD("") }, */
 	{ MODKEY|ShiftMask,	XK_apostrophe, togglesmartgaps,        {0} },
+
 	{ MODKEY,			XK_Return,     spawn,                  {.v = termcmd } },
 	{ MODKEY|ShiftMask,	XK_Return,     togglescratch,          {.ui = 0} },
 
 	/* { MODKEY,			XK_z,          spawn,                  SHCMD("") }, */
 	{ MODKEY|ShiftMask,	XK_z,          incrgaps,               {.i = +3 } },
+
 	{ MODKEY,			XK_x,          spawn,                  {.v = termcmd } },
 	{ MODKEY|ShiftMask,	XK_x,          incrgaps,               {.i = -3 } },
+
 	{ MODKEY,			XK_c,          spawn,                  {.v = (const char*[]){ TERMINAL, "-e", "profanity", NULL } } },
 	/* { MODKEY|ShiftMask,		XK_c,          spawn,                  SHCMD("") }, */
-	/* V is automatically bound above in STACKKEYS */
+
+	/* vV are bound to STACKKEYS */
 	{ MODKEY,			XK_b,          togglebar,              {0} },
 	/* { MODKEY|ShiftMask,		XK_b,          spawn,                  SHCMD("") }, */
+
+    { MODKEY,			XK_n,          spawn,                  {.v = (const char*[]){ "mpc", "toggle", NULL } } },
+	{ MODKEY|ShiftMask,	XK_n,          spawn,                  SHCMD("mpc pause; pauseallmpv") },
+
 	{ MODKEY,			XK_m,          spawn,                  {.v = (const char*[]){ TERMINAL, "-e", "ncmpcpp", NULL } } },
 	{ MODKEY|ShiftMask,	XK_m,          spawn,                  SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle; kill -44 $(pidof dwmblocks)") },
 	{ MODKEY,			XK_comma,      spawn,                  {.v = (const char*[]){ "mpc", "prev", NULL } } },
@@ -259,19 +296,7 @@ static const Key keys[] = {
 	{ MODKEY,			XK_space,      zoom,                   {0} },
 	{ MODKEY|ShiftMask,	XK_space,      togglefloating,         {0} },
 
-	{ MODKEY,				XK_p,      spawn,                  SHCMD("maim $HOME/Pictures/Screenshots/pic-full-$(date '+%y%m%d-%H%M-%S').png") },
-	{ MODKEY|ShiftMask,		XK_p,      spawn,                  {.v = (const char*[]){ "maimpick", NULL } } },
-	{ MODKEY,			XK_r,      spawn,		           {.v = (const char*[]){ "dmenurecord", NULL } } },
-	{ MODKEY|ShiftMask,	XK_r,      spawn,                  {.v = (const char*[]){ "dmenurecord", "kill", NULL } } },
-    { MODKEY|ShiftMask,	XK_backslash, spawn,               SHCMD("killall screenkey || screenkey &") },
-
-
-	// { 0,				XK_Print,      spawn,                  SHCMD("maim $HOME/Pictures/Screenshots/pic-full-$(date '+%y%m%d-%H%M-%S').png") },
-	// { ShiftMask,		XK_Print,      spawn,                  {.v = (const char*[]){ "maimpick", NULL } } },
-	// { MODKEY,			XK_Print,      spawn,		       {.v = (const char*[]){ "dmenurecord", NULL } } },
-	// { MODKEY|ShiftMask,	XK_Print,      spawn,                  {.v = (const char*[]){ "dmenurecord", "kill", NULL } } },
-	// { MODKEY,			XK_Scroll_Lock, spawn,            SHCMD("killall screenkey || screenkey &") },
-
+    /* For 100% keyboard layout */
 	{ 0, XF86XK_AudioMute,                         spawn,                  SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle; kill -44 $(pidof dwmblocks)") },
 	{ 0, XF86XK_AudioRaiseVolume,                  spawn,                  SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 0%- && wpctl set-volume @DEFAULT_AUDIO_SINK@ 3%+; kill -44 $(pidof dwmblocks)") },
 	{ 0, XF86XK_AudioLowerVolume,                  spawn,                  SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 0%+ && wpctl set-volume @DEFAULT_AUDIO_SINK@ 3%-; kill -44 $(pidof dwmblocks)") },
