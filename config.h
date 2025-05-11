@@ -179,7 +179,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,	XK_BackSpace,  spawn,                  SHCMD("pkill dwm") },
 
 	{ MODKEY,			XK_Tab,        view,                   {0} },
-	{ MODKEY|ShiftMask,	XK_Tab,	       spawn,                  {.v = (const char*[]){ TERMINAL, "-e", "nvim", NULL } } },
+	/* { MODKEY|ShiftMask,	XK_Tab,	       spawn,                  {.v = (const char*[]){ TERMINAL, "-e", "nvim", NULL } } }, */
 
 	{ MODKEY,			XK_q,          killclient,             {0} },
 	{ MODKEY|ShiftMask,	XK_q,          spawn,                  {.v = (const char*[]){ "sysact", NULL } } },
@@ -222,8 +222,8 @@ static const Key keys[] = {
 	{ MODKEY,			XK_a,          togglegaps,             {0} },
 	{ MODKEY|ShiftMask,	XK_a,          defaultgaps,            {0} },
 
-	{ MODKEY,			XK_s,          togglesticky,           {0} },
-	/* { MODKEY|ShiftMask,		XK_s,          spawn,                  SHCMD("") }, */
+	{ MODKEY,			XK_s,          spawn,              {.v = (const char*[]){ TERMINAL, "-e", "nvim", NULL } } },
+	{ MODKEY|ShiftMask,		XK_s,      togglesticky,           {0} },
 
 	{ MODKEY,			XK_d,          spawn,                  {.v = (const char*[]){ "dmenu_run", NULL } } },
 	{ MODKEY|ShiftMask,	XK_d,          spawn,                  {.v = (const char*[]){ "passmenu", NULL } } },
