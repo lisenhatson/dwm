@@ -3,11 +3,11 @@
 /* Constants */
 #define TERMINAL "st"
 #define TERMCLASS "St"
-#define BROWSER "thorium-browser"
+#define BROWSER "thorium-browser-avx2"
 #define LBROWSER "librewolf"
 
 /* appearance */
-static unsigned int borderpx  = 4;        /* border pixel of windows */
+static unsigned int borderpx  = 3;        /* border pixel of windows */
 static unsigned int snap      = 32;       /* snap pixel */
 static unsigned int gappih    = 15;       /* horiz inner gap between windows */
 static unsigned int gappiv    = 10;       /* vert inner gap between windows */
