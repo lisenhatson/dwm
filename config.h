@@ -20,19 +20,19 @@ static const unsigned int systrayspacing = 2;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
 static const int showsystray        = 1;        /* 0 means no systray */
 /* end of systray patch */
-static int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
+static int swallowfloating    = 1;        /* 1 means swallow floating windows by default */
 static int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
-static const int vertpad            = 0;       /* vertical padding of bar */
-static const int sidepad            = 0;       /* horizontal padding of bar */
-static char *fonts[]          = { "monospace:size=12", "NotoColorEmoji:pixelsize=10:antialias=true:autohint=true"  };
-static char normbgcolor[]           = "#222222";
-static char normbordercolor[]       = "#444444";
-static char normfgcolor[]           = "#bbbbbb";
-static char selfgcolor[]            = "#eeeeee";
-static char selbordercolor[]        = "#770000";
-static char selbgcolor[]            = "#007558";
+static const int vertpad            = 5;       /* vertical padding of bar */
+static const int sidepad            = 4;       /* horizontal padding of bar */
+static char *fonts[]          = { "monospace:size=11", "NotoColorEmoji:pixelsize=10:antialias=true:autohint=true"  };
+static char normbgcolor[]           = "#0f1419";
+static char normbordercolor[]       = "#3a424c";
+static char normfgcolor[]           = "#ffffff";
+static char selfgcolor[]            = "#0f1419";
+static char selbordercolor[]        = "#b8cc52";
+static char selbgcolor[]            = "#b8cc52";
 static char *colors[][3] = {
        /*               fg           bg           border   */
        [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
@@ -43,7 +43,7 @@ typedef struct {
 	const char *name;
 	const void *cmd;
 } Sp;
-const char *spcmd1[] = {TERMINAL, "-n", "spterm", "-g", "120x34", NULL };
+const char *spcmd1[] = {TERMINAL, "-n", "spterm", "-g", "120x30", NULL };
 const char *spcmd2[] = {TERMINAL, "-n", "spcalc", "-f", "monospace:size=16", "-g", "50x20", "-e", "bc", "-lq", NULL };
 static Sp scratchpads[] = {
 	/* name          cmd  */
